@@ -1,11 +1,13 @@
 require 'smalrubot'
 
 Smalrubot.debug_mode = true
-board = Smalrubot::Board.new(Smalrubot::TxRx::Serial.new(baud: 38400))
+board = Smalrubot::Board.new(Smalrubot::TxRx::Serial.new)
 
+=begin
 board.digital_write(13, 255)
 sleep(5)
 board.digital_write(13, 0)
+=end
 
 =begin
 10.times do
