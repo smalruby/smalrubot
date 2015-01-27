@@ -23,6 +23,11 @@ module Smalrubot
       PIDACCELEROMETER = 6
       PIDTOUCHSENSOR = 7
       PIDPUSHSWITCH = 8
+
+      NORMAL = 0
+      REVERSE = 1
+      BRAKE = 2
+      COAST = 3
     end
   end
 end
