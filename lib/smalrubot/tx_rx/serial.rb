@@ -3,7 +3,7 @@ require 'rubyserial'
 module Smalrubot
   module TxRx
     class Serial < Base
-      BAUD = 115200
+      BAUD = 19_200
 
       def initialize(options={})
         @device = options[:device]
@@ -25,7 +25,9 @@ module Smalrubot
             return super
           rescue BoardNotFound
             @tty_devices.shift
-            @io.close
+            if @io
+              @io.close
+            end
             @io = nil
           end
         end
