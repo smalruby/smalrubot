@@ -5,7 +5,7 @@ board = Smalrubot::Board.new(Smalrubot::TxRx::Serial.new)
 
 =begin
 board.digital_write(13, 255)
-sleep(1)
+sleep(5)
 board.digital_write(13, 0)
 =end
 
