@@ -46,6 +46,8 @@ module Smalrubot
 
       dc_motor_power: '42',
       dc_motor_control: '43',
+
+      led: '51',
     }
 
     WRITE_COMMANDS.each_key do |command|

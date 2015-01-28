@@ -28,6 +28,9 @@ module Smalrubot
       REVERSE = 1
       BRAKE = 2
       COAST = 3
+
+      ON = 1
+      OFF = 0
     end
   end
 end

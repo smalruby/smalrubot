@@ -20,8 +20,11 @@ class SrStuduino : public Smalrubot {
     void setDcMotorCalibration();
     void initDcMotorPort();
     void initSensorPort();
+
     void dcMotorPower();
     void dcMotorControl();
+    void led();
+
     void getTouchSensorValue();
     void getLightSensorValue();
     void getIrPhotoreflectorValue();

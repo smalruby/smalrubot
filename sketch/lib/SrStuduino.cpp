@@ -28,6 +28,9 @@ void SrStuduino::processCommand() {
   case 43:
     dcMotorControl();
     break;
+  case 51:
+    led();
+    break;
 
   case 61:
     getTouchSensorValue();
@@ -134,6 +137,19 @@ void SrStuduino::dcMotorControl() {
   byte rotations[] = { NORMAL, REVERSE, BRAKE, COAST };
 
   studuino.DCMotorControl(motorPorts[pin], rotations[val]);
+}
+
+/**
+ * !51<sensor_index><onoff>.
+ *
+ *   sensor_index(2): 0-7 => PORT_A0-PORT_A7
+ *   onoff(3): 0 => OFF or
+ *             1 => ON
+ **/
+void SrStuduino::led() {
+  boolean onoff[] = { OFF, ON };
+
+  studuino.LED(analogPorts[pin], onoff[val]);
 }
 
 /**
