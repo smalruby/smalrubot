@@ -31,7 +31,7 @@ module Smalrubot
             return line.chomp.split(/:/)[1].to_i
           end
         end
-      raise BoardNotFound
+        raise BoardNotFound
       end
 
       def flush_read

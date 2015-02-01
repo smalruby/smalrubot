@@ -31,6 +31,7 @@ module Smalrubot
             @io = nil
           end
         end
+        raise BoardNotFound
       end
 
       private
