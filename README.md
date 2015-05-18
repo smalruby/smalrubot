@@ -33,7 +33,24 @@ $ gem install smalrubot
 
 ## Usage
 
-TODO: Write usage instructions here
+### Prepare the Bootstrapper
+
+Use the included command line tool to create a folder with the Arduino sketch you want to use and optionally configure it.
+
+```shell
+# If using Smalrubot V3, this is all you should need:
+smalrubot generate-sketch sr
+
+# If using Smalrubot S1 (a.k.a Studuino), this is all you should need:
+smalrubot generate-sketch sr_studu
+```
+
+### Upload The Bootstrapper
+
+* Connect the Arduino to a USB port on your machine, regardless of which sketch you're using.
+* Open [the normal Arduino IDE](http://arduino.cc/en/Main/Software)
+* Open the `.ino` file in the sketch folder you just generated.
+* Click the upload button (an arrow).
 
 ## Contributing
 
