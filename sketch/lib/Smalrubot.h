@@ -64,6 +64,7 @@ class Smalrubot {
     void aRead();
     void servoToggle();
     void servoWrite();
+    void setNeoPixelPin();
     void setNeoPixelNumPixels();
     void setNeoPixelColor();
     void showNeoPixel();

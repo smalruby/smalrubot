@@ -6,7 +6,7 @@
 #include "Smalrubot.h"
 
 Smalrubot::Smalrubot(int neo_pixel_num, int neo_pixel_pin) :
-  pixels(neo_pixel_num, neo_pixel_pin, NEO_GRB + NEO_KHZ800)
+  pixels(neo_pixel_num, neo_pixel_pin, NEO_RGB + NEO_KHZ400)
 {
   reset();
 }
@@ -96,12 +96,15 @@ void Smalrubot::processCommand() {
       servoWrite();
       break;
     case 10:
-      setNeoPixelNumPixels();
+      setNeoPixelPin();
       break;
     case 11:
-      setNeoPixelColor();
+      setNeoPixelNumPixels();
       break;
     case 12:
+      setNeoPixelColor();
+      break;
+    case 13:
       showNeoPixel();
       break;
     case 90:
@@ -112,9 +115,9 @@ void Smalrubot::processCommand() {
   }
 }
 
-
 // WRITE CALLBACK
 void Smalrubot::setupWrite(void (*writeCallback)(char *str)) {
+  pixels.begin();
   _writeCallback = writeCallback;
 }
 void Smalrubot::writeResponse() {
@@ -206,6 +209,14 @@ void Smalrubot::servoWrite() {
 }
 
 // CMD = 10
+void Smalrubot::setNeoPixelPin() {
+  #ifdef debug
+    Serial.print("set NeoPixel pin "); Serial.println(pin);
+  #endif
+  pixels.setPin(pin);
+}
+
+// CMD = 11
 void Smalrubot::setNeoPixelNumPixels() {
   #ifdef debug
     Serial.print("set NeoPixel num pixels "); Serial.println(val);
@@ -214,7 +225,7 @@ void Smalrubot::setNeoPixelNumPixels() {
   // pixels.setNumPixels(val);
 }
 
-// CMD = 11
+// CMD = 12
 void Smalrubot::setNeoPixelColor() {
   #ifdef debug
     Serial.print("set NeoPixel color "); Serial.println(val);
@@ -225,7 +236,7 @@ void Smalrubot::setNeoPixelColor() {
   pixels.setPixelColor(n, pixels.Color(r, g, b));
 }
 
-// CMD = 12
+// CMD = 13
 void Smalrubot::showNeoPixel() {
   #ifdef debug
     Serial.println("show NeoPixel");

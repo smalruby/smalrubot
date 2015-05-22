@@ -39,9 +39,10 @@ module Smalrubot
       analog_write: '03',
       servo_toggle: '08',
       servo_write: '09',
-      set_neo_pixel_num_pixels: '10',
-      set_neo_pixel_color: '11',
-      show_neo_pixel: '12',
+      set_neo_pixel_pin: '10',
+      set_neo_pixel_num_pixels: '11',
+      set_neo_pixel_color: '12',
+      show_neo_pixel: '13',
 
       set_dc_motor_calibration: '20',
       init_dc_motor_port: '22',
@@ -54,8 +55,11 @@ module Smalrubot
     }
 
     WRITE_COMMANDS.each_key do |command|
-      define_method(command) do |pin, *value = [nil]|
+      define_method(command) do |pin = 0, *value|
         cmd = normalize_cmd(WRITE_COMMANDS[command])
+        if value.empty?
+          value = [nil]
+        end
         values = value.map { |v|
           normalize_value(v)
         }
