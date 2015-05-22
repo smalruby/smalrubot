@@ -35,10 +35,13 @@ module Smalrubot
     end
 
     WRITE_COMMANDS = {
-      digital_write:   '01',
-      analog_write:    '03',
-      servo_toggle:    '08',
-      servo_write:     '09',
+      digital_write: '01',
+      analog_write: '03',
+      servo_toggle: '08',
+      servo_write: '09',
+      set_neo_pixel_num_pixels: '10',
+      set_neo_pixel_color: '11',
+      show_neo_pixel: '12',
 
       set_dc_motor_calibration: '20',
       init_dc_motor_port: '22',
@@ -51,15 +54,18 @@ module Smalrubot
     }
 
     WRITE_COMMANDS.each_key do |command|
-      define_method(command) do |pin, value=nil|
+      define_method(command) do |pin, *value = [nil]|
         cmd = normalize_cmd(WRITE_COMMANDS[command])
-        write("#{cmd}#{normalize_pin(pin)}#{normalize_value(value)}")
+        values = value.map { |v|
+          normalize_value(v)
+        }
+        write("#{cmd}#{normalize_pin(pin)}#{values.join}")
       end
     end
 
     READ_COMMANDS = {
-      digital_read:    '02',
-      analog_read:     '04',
+      digital_read: '02',
+      analog_read: '04',
 
       get_touch_sensor_value: '61',
       get_light_sensor_value: '62',

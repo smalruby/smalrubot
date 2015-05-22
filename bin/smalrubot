@@ -86,6 +86,9 @@ $options[:sketch_names].uniq.each do |sketch_name|
   File.open(dest_implementation, 'w') { |f| f.write implementation }
   File.open(dest_sketch, 'w')         { |f| f.write sketch }
 
+  %w(Adafruit_NeoPixel.cpp Adafruit_NeoPixel.h).each do |name|
+    FileUtils.cp(File.join(src_dir, 'lib', name), File.join(dest_dir, name))
+  end
   if sketch_name == 'sr_studu'
     %w(SrStuduino.cpp SrStuduino.h).each do |name|
       FileUtils.cp(File.join(src_dir, 'lib', name), File.join(dest_dir, name))

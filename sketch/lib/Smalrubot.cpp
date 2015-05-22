@@ -31,8 +31,12 @@ void Smalrubot::parse(char c) {
 }
 
 
-int Smalrubot::parseRequestValue(int index) {
-  strncpy(valStr, request + 4 + index * 3, 3);
+int Smalrubot::parseRequestValue(int n) {
+  if (index < 4 + (n + 1) * 3) {
+    return 0;
+  }
+
+  strncpy(valStr, request + 4 + n * 3, 3);
   valStr[3] =  '\0';
 
   return atoi(valStr);
@@ -70,18 +74,41 @@ void Smalrubot::process() {
 void Smalrubot::processCommand() {
   // Call the command.
   switch(cmd) {
-    case 0:  setMode             ();  break;
-    case 1:  dWrite              ();  break;
-    case 2:  dRead               ();  break;
-    case 3:  aWrite              ();  break;
-    case 4:  aRead               ();  break;
-    case 8:  servoToggle         ();  break;
-    case 9:  servoWrite          ();  break;
-    case 10: setNeoPixelNumPixels();  break;
-    case 11: setNeoPixelColor    ();  break;
-    case 12: showNeoPixel        ();  break;
-    case 90: reset               ();  break;
-    default:                          break;
+    case 0:
+      setMode();
+      break;
+    case 1:
+      dWrite();
+      break;
+    case 2:
+      dRead();
+      break;
+    case 3:
+      aWrite();
+      break;
+    case 4:
+      aRead();
+      break;
+    case 8:
+      servoToggle();
+      break;
+    case 9:
+      servoWrite();
+      break;
+    case 10:
+      setNeoPixelNumPixels();
+      break;
+    case 11:
+      setNeoPixelColor();
+      break;
+    case 12:
+      showNeoPixel();
+      break;
+    case 90:
+      reset();
+      break;
+    default:
+      break;
   }
 }
 

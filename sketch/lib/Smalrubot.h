@@ -22,7 +22,7 @@
 // Uncomment this line to enable debugging mode.
 // #define debug true
 
-#define MAX_REQUEST_LENGTH 14
+#define MAX_REQUEST_LENGTH 20
 
 class Smalrubot {
   public:
@@ -54,7 +54,7 @@ class Smalrubot {
     Adafruit_NeoPixel pixels;
 
     virtual void processCommand();
-    int parseRequestValue(int index);
+    int parseRequestValue(int n);
 
     // API-accessible functions.
     void setMode();
