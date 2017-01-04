@@ -25,13 +25,13 @@ module Smalrubot
       it 'should require a pin or pins' do
         expect {
           BaseComponent.new(board: 'some board')
-        }.to raise_exception
+        }.to raise_exception(RuntimeError)
       end
 
       it 'should require a board' do
         expect {
           BaseComponent.new(pin: 'some pin')
-        }.to raise_exception
+        }.to raise_exception(RuntimeError)
       end
 
       context "when subclassed #after_initialize should be executed" do

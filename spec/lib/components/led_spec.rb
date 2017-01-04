@@ -9,13 +9,13 @@ module Smalrubot
         it 'should raise if it does not receive a pin' do
           expect {
             Led.new(board: board)
-          }.to raise_exception
+          }.to raise_exception(RuntimeError)
         end
 
         it 'should raise if it does not receive a board' do
           expect {
             Led.new(pins: {})
-          }.to raise_exception
+          }.to raise_exception(RuntimeError)
         end
 
         it 'should set the pin to out' do
