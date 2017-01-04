@@ -19,12 +19,12 @@ module Smalrubot
         end
 
         it 'should set the pin to out' do
-          board.should_receive(:set_pin_mode).with(13, :out, nil)
+          expect(board).to receive(:set_pin_mode).with(13, :out, nil)
           Led.new(pin: 13, board: board)
         end
 
         it 'should set the pin to low' do
-          board.should_receive(:digital_write).with(13, Board::LOW)
+          expect(board).to receive(:digital_write).with(13, Board::LOW)
           Led.new(pin: 13, board: board)
         end
       end
@@ -32,7 +32,7 @@ module Smalrubot
       describe '#on' do
         it 'should send a high to the board with the pin' do
           @led = Led.new(pin: 13, board: board)
-          board.should_receive(:digital_write).with(13, Board::HIGH)
+          expect(board).to receive(:digital_write).with(13, Board::HIGH)
           @led.on
         end
       end
@@ -40,7 +40,7 @@ module Smalrubot
       describe '#off' do
         it 'should send a high to the board with the pin' do
           @led = Led.new(pin: 13, board: board)
-          board.should_receive(:digital_write).with(13, Board::LOW)
+          expect(board).to receive(:digital_write).with(13, Board::LOW)
           @led.off
         end
       end

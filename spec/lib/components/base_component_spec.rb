@@ -10,8 +10,8 @@ module Smalrubot
         board = "a board"
         component = BaseComponent.new(pin: pin, board: board)
 
-        component.pin.should == pin
-        component.board.should == board
+        expect(component.pin).to eq(pin)
+        expect(component.board).to eq(board)
       end
 
       it 'should assign pins' do
@@ -19,7 +19,7 @@ module Smalrubot
         board = "a board"
         component = BaseComponent.new(pins: pins, board: board)
 
-        component.pins.should == pins
+        expect(component.pins).to eq(pins)
       end
 
       it 'should require a pin or pins' do
@@ -54,8 +54,8 @@ module Smalrubot
 
         it "should call #after_initialize with options" do
           component = SpecComponent.new(options)
-          component.should be_sucessfully_initialized
-          component.options.should eq options
+          expect(component).to be_sucessfully_initialized
+          expect(component.options).to eq(options)
         end
 
       end

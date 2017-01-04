@@ -19,13 +19,13 @@ module Smalrubot
         end
 
         it 'should set the pins to out' do
-          board.should_receive(:set_pin_mode).with(13, :out, nil)
+          expect(board).to receive(:set_pin_mode).with(13, :out, nil)
           Servo.new(pin: 13, board: board)
         end
 
         it 'should set the inital position to 0' do
           servo =  Servo.new(pin: 13, board: board)
-          servo.instance_variable_get(:@position).should == 0
+          expect(servo.instance_variable_get(:@position)).to eq(0)
         end
       end
 
@@ -34,21 +34,21 @@ module Smalrubot
 
         it 'should set the position of the Servo' do
           servo.position = 90
-          servo.instance_variable_get(:@position).should == 90
+          expect(servo.instance_variable_get(:@position)).to eq(90)
         end
 
         it 'should let you write up to 180' do
           servo.position = 180
-          servo.instance_variable_get(:@position).should == 180
+          expect(servo.instance_variable_get(:@position)).to eq(180)
         end
 
         it 'should modulate when position > 180' do
           servo.position = 190
-          servo.instance_variable_get(:@position).should == 10
+          expect(servo.instance_variable_get(:@position)).to eq(10)
         end
 
         it 'should write the new position to the board' do
-          board.should_receive(:servo_write).with(13, 10)
+          expect(board).to receive(:servo_write).with(13, 10)
           servo.position = 190
         end
       end
