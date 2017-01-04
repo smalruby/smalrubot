@@ -1,5 +1,8 @@
 # smalrubot
 
+[![Gem Version](https://badge.fury.io/rb/smalrubot.png)](https://badge.fury.io/rb/smalrubot)
+[![Build Status](https://travis-ci.org/smalruby/smalrubot.svg?branch=master)](https://travis-ci.org/smalruby/smalrubot)
+
 The smalrubot is a library and an Arduino sketch for Smalruby.
 
 This is a part of the Smalruby ([http://smalruby.jp](http://smalruby.jp)) Project.
