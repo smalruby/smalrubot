@@ -42,14 +42,15 @@ class Smalrubot {
     byte pin;
     char valStr[4];
     int val;
+    char boardName[3];
 
     // Value and response storage.
     int rval;
-    char response[8];
+    char response[9];
     void (*_writeCallback)(char *str);
     void writeResponse();
 
-    Servo servos[12];
+    Servo *servos[12];
 
     Adafruit_NeoPixel pixels;
 
@@ -69,6 +70,7 @@ class Smalrubot {
     void setNeoPixelColor();
     void showNeoPixel();
     void reset();
+    void resetV2();
 };
 
 #endif

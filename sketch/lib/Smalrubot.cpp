@@ -8,7 +8,11 @@
 Smalrubot::Smalrubot(int neo_pixel_num, int neo_pixel_pin) :
   pixels(neo_pixel_num, neo_pixel_pin, NEO_RGB + NEO_KHZ400)
 {
-  reset();
+  boardName[0] = 'V';
+  boardName[1] = '3';
+  boardName[2] = '\0';
+
+  receivingRequest = false;
 }
 
 void Smalrubot::parse(char c) {
@@ -110,6 +114,9 @@ void Smalrubot::processCommand() {
     case 90:
       reset();
       break;
+    case 91:
+      resetV2();
+      break;
     default:
       break;
   }
@@ -118,6 +125,9 @@ void Smalrubot::processCommand() {
 // WRITE CALLBACK
 void Smalrubot::setupWrite(void (*writeCallback)(char *str)) {
   pixels.begin();
+  for (int i = 0; i < 12; i++) {
+    servos[i] = new Servo();
+  }
   _writeCallback = writeCallback;
 }
 void Smalrubot::writeResponse() {
@@ -189,13 +199,13 @@ void Smalrubot::servoToggle() {
     #ifdef debug
       Serial.print("Detaching servo"); Serial.print(" on pin "); Serial.println(pin);
     #endif
-    servos[pin - SERVO_OFFSET].detach();
+    servos[pin - SERVO_OFFSET]->detach();
   }
   else {
     #ifdef debug
       Serial.print("Attaching servo"); Serial.print(" on pin "); Serial.println(pin);
     #endif
-    servos[pin - SERVO_OFFSET].attach(pin);
+    servos[pin - SERVO_OFFSET]->attach(pin);
   }
 }
 
@@ -205,7 +215,7 @@ void Smalrubot::servoWrite() {
   #ifdef debug
     Serial.print("Servo write "); Serial.print(val); Serial.print(" to pin "); Serial.println(pin);
   #endif
-  servos[pin - SERVO_OFFSET].write(val);
+  servos[pin - SERVO_OFFSET]->write(val);
 }
 
 // CMD = 10
@@ -250,5 +260,14 @@ void Smalrubot::reset() {
     Serial.println("Reset the board to defaults.");
   #endif
   sprintf(response, "ACK:%02d", A0);
+  receivingRequest = false;
+}
+
+// CMD = 91
+void Smalrubot::resetV2() {
+  #ifdef debug
+    Serial.println("Reset the board to defaults version 2.");
+  #endif
+  sprintf(response, "%02d:%s,%02d", pin, boardName, A0);
   receivingRequest = false;
 }

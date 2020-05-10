@@ -24,4 +24,3 @@ void loop() {
   while(Serial.available() > 0) smalrubot.parse(Serial.read());
   Serial.flush();
 }
-

@@ -11,6 +11,7 @@
 class SrStuduino : public Smalrubot {
   public:
     SrStuduino(int neo_pixel_num, int neo_pixel_pin);
+    void setupWrite(void (*writeCallback)(char *str));
 
   protected:
     Studuino studuino;
@@ -19,10 +20,12 @@ class SrStuduino : public Smalrubot {
 
     void setDcMotorCalibration();
     void initDcMotorPort();
+    void initServoMotorPort();
     void initSensorPort();
 
     void dcMotorPower();
     void dcMotorControl();
+    void servoMotor();
     void led();
 
     void getTouchSensorValue();

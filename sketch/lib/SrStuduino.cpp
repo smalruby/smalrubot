@@ -5,6 +5,14 @@ typedef Smalrubot base;
 SrStuduino::SrStuduino(int neo_pixel_num, int neo_pixel_pin) :
   Smalrubot(neo_pixel_num, neo_pixel_pin)
 {
+  boardName[0] = 'S';
+  boardName[1] = '1';
+  boardName[2] = '\0';
+}
+
+void SrStuduino::setupWrite(void (*writeCallback)(char *str)) {
+  // Must not call pixels.begin(), if use servo motor.
+  _writeCallback = writeCallback;
 }
 
 /*
@@ -20,6 +28,9 @@ void SrStuduino::processCommand() {
   case 22:
     initDcMotorPort();
     break;
+  case 23:
+    initServoMotorPort();
+    break;
   case 25:
     initSensorPort();
     break;
@@ -30,6 +41,10 @@ void SrStuduino::processCommand() {
   case 43:
     dcMotorControl();
     break;
+  case 44:
+    servoMotor();
+    break;
+
   case 51:
     led();
     break;
@@ -53,6 +68,16 @@ void SrStuduino::processCommand() {
 byte motorPorts[] = {
   PORT_M1,
   PORT_M2
+};
+byte digitalPorts[] = {
+  PORT_D2,
+  PORT_D4,
+  PORT_D7,
+  PORT_D8,
+  PORT_D9,
+  PORT_D10,
+  PORT_D11,
+  PORT_D12
 };
 byte analogPorts[] = {
   PORT_A0,
@@ -99,6 +124,23 @@ void SrStuduino::initDcMotorPort() {
 }
 
 /**
+ * !23<servo_motor_index>.
+ *
+ *   servo_motor_index(2):
+ *       0 => PORT_D2
+ *       1 => PORT_D4
+ *       2 => PORT_D7
+ *       3 => PORT_D8
+ *       4 => PORT_D9
+ *       5 => PORT_D10
+ *       6 => PORT_D11
+ *       7 => PORT_D12
+ **/
+void SrStuduino::initServoMotorPort() {
+  studuino.InitServomotorPort(digitalPorts[pin]);
+}
+
+/**
  * !25<sensor_index><pid_index>.
  *
  *   sensor_index(2): 0-7 => PORT_A0-PORT_A7
@@ -139,6 +181,25 @@ void SrStuduino::dcMotorControl() {
   byte rotations[] = { NORMAL, REVERSE, BRAKE, COAST };
 
   studuino.DCMotorControl(motorPorts[pin], rotations[val]);
+}
+
+/**
+ * !44<servo_motor_index><degree>.
+ *
+ *   servo_motor_index(2):
+ *       0 => PORT_D2
+ *       1 => PORT_D4
+ *       2 => PORT_D7
+ *       3 => PORT_D8
+ *       4 => PORT_D9
+ *       5 => PORT_D10
+ *       6 => PORT_D11
+ *       7 => PORT_D12
+ *   degree(3): 0-180
+ **/
+void SrStuduino::servoMotor() {
+  byte degree = (byte)val;
+  studuino.Servomotor(digitalPorts[pin], degree);
 }
 
 /**
