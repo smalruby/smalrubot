@@ -1,5 +1,30 @@
 require 'rubyserial'
 
+if RubySerial::ON_WINDOWS && ENV['SMALRUBOT_TIMEOUT_SCALE']
+  module SerialWithTimeoutScale
+    def initialize(address, baude_rate=9600, data_bits=8, parity=:none)
+      super
+
+      scale = ENV['SMALRUBOT_TIMEOUT_SCALE'].to_i.abs
+      RubySerial::Win32::CommTimeouts.new.tap do |timeouts|
+        timeouts[:read_interval_timeout]          = 10 * scale
+        timeouts[:read_total_timeout_multiplier]  = 1 * scale
+        timeouts[:read_total_timeout_constant]    = 10 * scale
+        timeouts[:write_total_timeout_multiplier] = 1 * scale
+        timeouts[:write_total_timeout_constant]   = 10 * scale
+        err = RubySerial::Win32.SetCommTimeouts @fd, timeouts
+        if err == 0
+          raise RubySerial::Exception, RubySerial::Win32::ERROR_CODES[FFI.errno]
+        end
+      end
+    end
+  end
+
+  class Serial
+    prepend SerialWithTimeoutScale
+  end
+end
+
 module Smalrubot
   module TxRx
     class Serial < Base
