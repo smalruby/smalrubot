@@ -23,6 +23,7 @@ def usage
   $stderr.puts "    Options:"
   $stderr.puts "      --baud BAUD"
   $stderr.puts "      --debug"
+  $stderr.puts "      --force"
   $stderr.puts
   exit(2)
 end
@@ -42,6 +43,8 @@ loop do
       ARGV.shift; $options[:baud] = ARGV.shift
     when '--debug'
       ARGV.shift; $options[:debug] = true
+    when '--force'
+      ARGV.shift; $options[:force] = true
     when /^-/
       error "Invalid argument '#{ARGV[0]}'"
     else break
@@ -76,6 +79,9 @@ $options[:sketch_names].uniq.each do |sketch_name|
   # Define the destinations.
   working_dir = Dir.pwd
   dest_dir = File.join working_dir, sketch_dir
+  if $options[:force]
+    FileUtils.rm_rf(dest_dir)
+  end
   Dir::mkdir dest_dir
   dest_header = File.join dest_dir, "Smalrubot.h"
   dest_implementation = File.join dest_dir, "Smalrubot.cpp"
