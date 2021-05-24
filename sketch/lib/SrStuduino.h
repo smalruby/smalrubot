@@ -15,10 +15,13 @@ class SrStuduino : public Smalrubot {
 
   protected:
     Studuino studuino;
+    byte dcMotorCalibrations[2];
+    char servomotorCalibrations[8];
 
     virtual void processCommand();
 
     void setDcMotorCalibration();
+    void setServomotorCalibration();
     void initDcMotorPort();
     void initServoMotorPort();
     void initSensorPort();
@@ -30,6 +33,7 @@ class SrStuduino : public Smalrubot {
 
     void getTouchSensorValue();
     void getLightSensorValue();
+    void getSoundSensorValue();
     void getIrPhotoreflectorValue();
 };
 
