@@ -3,7 +3,9 @@
 typedef Smalrubot base;
 
 SrStuduino::SrStuduino(int neo_pixel_num, int neo_pixel_pin) :
-  Smalrubot(neo_pixel_num, neo_pixel_pin)
+  Smalrubot(neo_pixel_num, neo_pixel_pin),
+  dcMotorCalibrations{ 100, 100 },
+  servomotorCalibrations{ 0, 0, 0, 0, 0, 0, 0, 0 }
 {
   boardName[0] = 'S';
   boardName[1] = '1';
@@ -24,6 +26,9 @@ void SrStuduino::processCommand() {
   switch(cmd) {
   case 20:
     setDcMotorCalibration();
+    break;
+  case 21:
+    setServomotorCalibration();
     break;
   case 22:
     initDcMotorPort();
@@ -54,6 +59,9 @@ void SrStuduino::processCommand() {
     break;
   case 62:
     getLightSensorValue();
+    break;
+  case 63:
+    getSoundSensorValue();
     break;
   case 64:
     getIrPhotoreflectorValue();
@@ -108,10 +116,19 @@ byte pids[] = {
  *   rate(3): 0-100
  **/
 void SrStuduino::setDcMotorCalibration() {
-  byte calib[] = { 100, 100 };
+  dcMotorCalibrations[pin] = val;
+  studuino.SetDCMotorCalibration(dcMotorCalibrations);
+}
 
-  calib[pin] = val;
-  studuino.SetDCMotorCalibration(calib);
+/**
+ * !21<motor_index><rate>.
+ *
+ *   motor_index(2): 0-7 => PORT_D2-PORT_D12
+ *   degree(3): -15 - 15
+ **/
+void SrStuduino::setServomotorCalibration() {
+  servomotorCalibrations[pin] = val;
+  studuino.SetServomotorCalibration(servomotorCalibrations);
 }
 
 /**
@@ -242,6 +259,21 @@ void SrStuduino::getTouchSensorValue() {
  **/
 void SrStuduino::getLightSensorValue() {
   int res = studuino.GetLightSensorValue(analogPorts[pin]);
+
+  sprintf(response, "%02d:%04d", pin, res);
+}
+
+/**
+ * !63<sensor_index>.
+ *
+ *   sensor_index(2): 0-7 => PORT_A0-PORT_A7
+ *
+ *   return: <sensor_index><res>
+ *
+ *     res: 0-1023
+ **/
+void SrStuduino::getSoundSensorValue() {
+  int res = studuino.GetSoundSensorValue(analogPorts[pin]);
 
   sprintf(response, "%02d:%04d", pin, res);
 }
